@@ -7,9 +7,9 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.example.model.APIParam;
-import org.example.model.ModelType;
-import org.example.service.APIService;
+import org.example.llmservletopenapi.model.APIParam;
+import org.example.llmservletopenapi.model.ModelType;
+import org.example.llmservletopenapi.service.APIService;
 
 import java.io.IOException;
 import java.io.PrintWriter;
