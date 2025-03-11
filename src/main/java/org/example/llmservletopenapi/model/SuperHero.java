@@ -158,7 +158,6 @@ public class SuperHero {
     public static class Connections {
         @JsonProperty("group-affiliation")
         public String groupAffiliation;
-
         public String relatives;
     }
 

@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="org.example.llmservletopenapi.model.SuperHero" %>
+<%@ page import="org.example.llmservletopenapi.service.SuperHeroService" %>
 <%@ page import="java.util.*" %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -19,18 +20,24 @@
     <div id="progress-percent">0%</div>
 </div>
 
-<!-- 메인 콘텐츠: 컨트롤러에서 전달한 데이터를 사용하므로 직접 API 호출 X -->
+<!-- 메인 콘텐츠: 서버 사이드에서 데이터를 불러와 렌더링 -->
 <div id="main-content" style="display: none;">
     <h1>슈퍼히어로 카드 갤러리</h1>
-
     <%
-        // HeroController에서 request 속성으로 전달한 heroList를 가져옵니다.
-        List<SuperHero> heroList = (List<SuperHero>) request.getAttribute("heroList");
-        if (heroList == null) {
-            heroList = new ArrayList<>();
+        // SuperHeroService를 사용하여 1부터 100번의 데이터를 불러옵니다.
+        SuperHeroService heroService = new SuperHeroService();
+        List<SuperHero> heroList = new ArrayList<>();
+        for (int i = 1; i <= 100; i++) {
+            try {
+                SuperHero hero = heroService.getHeroById(String.valueOf(i));
+                if (hero != null) {
+                    heroList.add(hero);
+                }
+            } catch (Exception e) {
+                System.err.println("[ERROR] ID " + i + " 데이터를 불러오는 중 오류 발생");
+            }
         }
     %>
-
     <div id="card-container">
         <%
             for (int i = 0; i < heroList.size(); i++) {
@@ -91,7 +98,6 @@
         </div>
         <% } %>
     </div>
-
     <div id="pagination">
         <button class="page-btn" data-page="1">1</button>
         <button class="page-btn" data-page="2">2</button>
@@ -100,7 +106,6 @@
         <button class="page-btn" data-page="5">5</button>
     </div>
 </div>
-
 <!-- JavaScript 파일 로드: webapp/js/script.js -->
 <script src="js/script.js"></script>
 </body>
