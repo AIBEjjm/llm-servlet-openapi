@@ -197,4 +197,29 @@ SuperHero API는 슈퍼히어로 및 빌런의 다양한 정보를 제공하는 
 2. `/id` → 전체 정보 조회 또는 `/id/특정엔드포인트`로 필요한 데이터 조회
 3. `/id/image` → 이미지 URL 가져오기
 
-이제 SuperHero API를 활용해 프로젝트에 적용하면 캐릭터 정보를 효과적으로 활용할 수 있어! 🚀
+---
+
+# 트러블 슈팅
+## 302 ERROR
+
+- 문제상황
+
+웹 브라우저에서 직접 url로 api를 요청할때는 json형식으로 잘 출력되었는데 IDLE내에 콘솔창에서는 302 오류가 났다.
+
+- 해결 방법
+
+1. Java의 HttpClient가 302 Redirect를 자동으로 따라가도록 설정
+```java
+HttpClient.newBuilder()
+    .followRedirects(HttpClient.Redirect.ALWAYS)
+    .build();
+```
+- 기본적으로 Java의 HttpClient는 302 Redirect를 자동으로 처리하지 않음
+- 위 옵션을 추가하면 Redirect를 자동으로 처리하도록 변경
+
+2. User-Agent를 추가하여 브라우저처럼 요청
+```java
+.header("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36")
+```
+- 일부 API는 봇(Bot) 요청을 차단할 수도 있음
+- 브라우저처럼 보이도록 요청하면 차단되지 않을 가능성이 높음
