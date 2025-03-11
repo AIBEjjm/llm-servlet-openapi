@@ -44,7 +44,7 @@ public class SuperHeroService {
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(url))
-                .header("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36") // 브라우저처럼 요청
+                .header("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36")
                 .GET()
                 .build();
 
@@ -53,7 +53,7 @@ public class SuperHeroService {
         // HTML 응답 감지 (API Key 오류, 차단, HTML 에러 페이지)
         if (response.body().trim().startsWith("<")) {
             System.err.println("❌ API 응답이 HTML 형식입니다. URL과 API Key를 확인하세요.");
-            System.err.println(response.body()); // 실제 HTML 내용 출력
+            System.err.println(response.body());
             return null;
         }
 
@@ -62,19 +62,26 @@ public class SuperHeroService {
 
     public static void main(String[] args) {
         SuperHeroService service = new SuperHeroService();
-        try {
-            // ID 1번 데이터 테스트
-            String heroData = service.getHeroById("1");
-            if (heroData != null) {
-                // JSON 파싱 및 예쁘게 출력
-                JsonNode jsonNode = service.objectMapper.readTree(heroData);
-                String prettyJson = service.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(jsonNode);
-                System.out.println("✅ SuperHero Data for ID 1:");
-                System.out.println(prettyJson);
+        int totalCharacters = 10;
+
+        for (int i = 1; i <= totalCharacters; i++) {
+            try {
+                String heroData = service.getHeroById(String.valueOf(i));
+                if (heroData != null) {
+                    // JSON 파싱 및 예쁘게 출력
+                    JsonNode jsonNode = service.objectMapper.readTree(heroData);
+                    String prettyJson = service.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(jsonNode);
+                    System.out.println("✅ SuperHero Data for ID " + i + ":");
+                    System.out.println(prettyJson);
+                } else {
+                    System.err.println("❌ No data received for ID " + i);
+                }
+                // 간단한 속도 조절 (필요시 주석 해제)
+                // Thread.sleep(500);
+            } catch (Exception e) {
+                System.err.println("Error fetching data for ID " + i);
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            System.err.println("API Call Failed!");
-            e.printStackTrace();
         }
     }
 }
