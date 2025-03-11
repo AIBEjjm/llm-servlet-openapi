@@ -14,7 +14,46 @@ h1 {
     margin-bottom: 20px;
 }
 
-/* 카드 컨테이너: CSS Grid 레이아웃을 사용하여 5열 구성 */
+/* 로딩 오버레이 스타일 */
+#loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.9);
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#loading-message {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+#progress-bar-container {
+    width: 50%;
+    background-color: #ddd;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+#progress-bar {
+    width: 0%;
+    height: 20px;
+    background-color: #007BFF;
+    transition: width 0.3s;
+}
+
+#progress-percent {
+    margin-top: 10px;
+    font-size: 18px;
+}
+
+/* 카드 컨테이너: CSS Grid 레이아웃 (5열) */
 #card-container {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
@@ -24,12 +63,11 @@ h1 {
 /* 개별 카드 스타일: 세로형 카드로 높이 증가 */
 .card {
     width: 100%;
-    height: 480px;  /* 높이를 480px로 변경하여 세로형 카드로 만듦 */
-    perspective: 1000px; /* 3D 효과를 위한 원근감 */
+    height: 480px;
+    perspective: 1000px;
 }
 
-
-/* 카드 내부: 앞면과 뒷면을 감싸는 컨테이너 */
+/* 카드 내부: 앞면과 뒷면 */
 .card-inner {
     position: relative;
     width: 100%;
@@ -39,12 +77,10 @@ h1 {
     cursor: pointer;
 }
 
-/* 카드가 뒤집혔을 때 */
 .card-inner.flipped {
     transform: rotateY(180deg);
 }
 
-/* 카드 앞면과 뒷면의 공통 스타일 */
 .card-front, .card-back {
     position: absolute;
     width: 100%;
@@ -57,33 +93,30 @@ h1 {
     overflow: hidden;
 }
 
-/* 카드 앞면 */
 .card-front {
     z-index: 2;
 }
 
-/* 카드 뒷면 */
 .card-back {
     transform: rotateY(180deg);
     padding: 10px;
     font-size: 12px;
 }
 
-/* 이미지 영역: 카드 앞면의 이미지 영역 */
+/* 이미지 영역 */
 .image-container {
     position: relative;
     width: 100%;
-    height: 70%; /* 카드 높이의 70%를 이미지 영역으로 사용 */
+    height: 70%;
 }
 
-/* 이미지 스타일: 전체 영역을 채움 */
 .card-front img {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
 
-/* 캐릭터 능력치: 이미지 영역 내 우측 하단에 오버레이 형태로 표시 */
+/* 능력치 오버레이: 이미지 내부 우측 하단 */
 .hero-stats {
     position: absolute;
     bottom: 5px;
@@ -94,7 +127,7 @@ h1 {
     border-radius: 4px;
 }
 
-/* 캐릭터 이름: 이미지 영역 아래에 표시 */
+/* 캐릭터 이름: 이미지 아래 */
 .hero-name {
     text-align: center;
     font-weight: bold;
@@ -109,7 +142,6 @@ h1 {
     margin-top: 20px;
 }
 
-/* 페이지 버튼 스타일 */
 .page-btn {
     background-color: #007BFF;
     border: none;
