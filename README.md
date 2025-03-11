@@ -223,3 +223,15 @@ HttpClient.newBuilder()
 ```
 - 일부 API는 봇(Bot) 요청을 차단할 수도 있음
 - 브라우저처럼 보이도록 요청하면 차단되지 않을 가능성이 높음
+
+3. 콘솔로그에서 디버그 로그 한글 깨짐
+## ✅ 톰캣 실행 시 UTF-8 적용
+
+### 📌 IntelliJ에서 톰캣 실행 시 JVM 옵션 추가
+
+1. `Run` → `Edit Configurations` 클릭
+2. `Tomcat Server` 선택
+3. `VM options`에 다음 값 추가
+
+   ```ini
+   -Dfile.encoding=UTF-8
