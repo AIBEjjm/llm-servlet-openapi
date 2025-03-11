@@ -18,10 +18,10 @@
          한 페이지에는 20개의 카드(가로 5장 x 세로 4줄)가 표시됩니다. --%>
     <%
         for (int i = 1; i <= 100; i++) {
-            // 현재 카드가 속한 페이지 계산: (i-1)/20 + 1
-            int page = ((i - 1) / 20) + 1;
+            // 'page'는 JSP 내장 변수와 충돌하므로, 다른 변수명(cardPage) 사용
+            int cardPage = ((i - 1) / 20) + 1;
     %>
-    <div class="card" data-page="<%= page %>">
+    <div class="card" data-page="<%= cardPage %>">
         <div class="card-inner">
             <!-- 카드 앞면 -->
             <div class="card-front">
