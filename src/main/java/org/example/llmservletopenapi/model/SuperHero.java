@@ -170,15 +170,12 @@ public class SuperHero {
     public static class Image {
         public String url;
 
-        // getter 메서드 추가
         public String getUrl() {
             return url;
         }
 
-        // setter 메서드 추가 (필요 시)
         public void setUrl(String url) {
             this.url = url;
         }
     }
-
 }

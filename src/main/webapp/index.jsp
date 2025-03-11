@@ -1,5 +1,4 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ page import="org.example.llmservletopenapi.service.SuperHeroService" %>
 <%@ page import="org.example.llmservletopenapi.model.SuperHero" %>
 <%@ page import="java.util.*" %>
 <!DOCTYPE html>
@@ -20,34 +19,24 @@
     <div id="progress-percent">0%</div>
 </div>
 
-<!-- 메인 콘텐츠: 처음에는 숨김 -->
+<!-- 메인 콘텐츠: 컨트롤러에서 전달한 데이터를 사용하므로 직접 API 호출 X -->
 <div id="main-content" style="display: none;">
-    <!-- 페이지 상단 제목 -->
     <h1>슈퍼히어로 카드 갤러리</h1>
 
-    <%-- 기존처럼 API에서 직접 데이터를 불러와 카드 생성 (테스트용, 캐싱 적용 전 방식) --%>
     <%
-        SuperHeroService heroService = new SuperHeroService();
-        List<SuperHero> heroList = new ArrayList<>();
-        for (int i = 1; i <= 100; i++) {
-            try {
-                SuperHero hero = heroService.getHeroById(String.valueOf(i));
-                if (hero != null) {
-                    heroList.add(hero);
-                }
-            } catch (Exception e) {
-                System.err.println("[ERROR] ID " + i + " 데이터를 불러오는 중 오류 발생");
-            }
+        // HeroController에서 request 속성으로 전달한 heroList를 가져옵니다.
+        List<SuperHero> heroList = (List<SuperHero>) request.getAttribute("heroList");
+        if (heroList == null) {
+            heroList = new ArrayList<>();
         }
     %>
 
-    <!-- 카드 컨테이너 (CSS Grid로 5열 구성) -->
     <div id="card-container">
         <%
             for (int i = 0; i < heroList.size(); i++) {
                 SuperHero hero = heroList.get(i);
                 int cardPage = (i / 20) + 1;
-                // hero의 이미지 URL이 존재하면 사용, 없으면 기본 이미지 파일(images/heroImg.png) 사용
+                // hero의 이미지 URL이 있으면 사용, 없으면 기본 이미지 (images/heroImg.png) 사용
                 String imageUrl = (hero.getImage() != null && hero.getImage().getUrl() != null
                         && !hero.getImage().getUrl().isEmpty())
                         ? hero.getImage().getUrl()
@@ -57,10 +46,8 @@
             <div class="card-inner">
                 <!-- 카드 앞면 -->
                 <div class="card-front">
-                    <!-- 이미지 영역: 실제 API의 이미지 URL 또는 기본 이미지 사용 -->
                     <div class="image-container">
                         <img src="<%= imageUrl %>" alt="슈퍼히어로 이미지">
-                        <!-- 이미지 영역 내 우측 하단에 능력치 오버레이 (powerstats) -->
                         <div class="hero-stats">
                             Intelligence: <%= hero.getPowerStats().intelligence %><br>
                             Strength: <%= hero.getPowerStats().strength %><br>
@@ -70,7 +57,6 @@
                             Combat: <%= hero.getPowerStats().combat %>
                         </div>
                     </div>
-                    <!-- 이미지 아래에 캐릭터 이름 표시 -->
                     <div class="hero-name"><%= hero.getName() %></div>
                 </div>
                 <!-- 카드 뒷면 -->
@@ -106,7 +92,6 @@
         <% } %>
     </div>
 
-    <!-- 페이지 네비게이션 영역 -->
     <div id="pagination">
         <button class="page-btn" data-page="1">1</button>
         <button class="page-btn" data-page="2">2</button>
